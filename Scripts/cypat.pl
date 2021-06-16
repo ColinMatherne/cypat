@@ -1,8 +1,11 @@
 #!/usr/bin/perl
+#																								DOES NOT SUPPORT MORE THAN 30 USERS
 use strict;
+# use warnings;					Auto typecast doesn't like this when "if (temp == '10')" to check if a UID is 1000 or over
 
 use feature "switch";
 
+# Assign most vars
 my @programs ['ufw', 'clamtk', 'rkhunter'];
 my $temp;
 my @new;
@@ -13,12 +16,14 @@ my $filename = '/etc/group';
 open(my $fh, '<:encoding(UTF-8)', $filename)
 	or die "Could not open file '$filename' $!";
 
+# Make array of all users
 while (my $row = <$fh>)
 {
 	chomp $row;
 	push @file, $row;
 }
 
+# Find all users with REGEX
 for (my $i = 0; $i < scalar(@file); $i++)
 {
 	$file[$i] =~ s/.{3}$//;
@@ -30,6 +35,7 @@ for (my $i = 0; $i < scalar(@file); $i++)
 	}
 }
 
+# Print all users and have a number with them
 for (my i = 0, my $i = 1; $i < scalar(@a_users); $i++, $j++)
 {
 	print "User #$j: $a_users[$i] ";
@@ -42,6 +48,7 @@ chomp $temp;
 
 my @input = split(' ', $temp);
 
+# Switch for selecting users
 for (my $i = 0; $i < scalar(@input); $i++)
 {
 	given($input[$i])
@@ -79,6 +86,7 @@ for (my $i = 0; $i < scalar(@input); $i++)
 	}
 }
 
+# Make superusers
 for (my $i = 0; $i < scalar(a_users); $i++)
 {
 	my $found = grep /$a_users[$i]/, @new;
@@ -94,8 +102,13 @@ for (my $i = 0; $i < scalar(a_users); $i++)
 	}
 }
 
+system("sudo systemctl enable ufw; sudo systemctl start ufw; sudo ufw enable")
+
+# Install all programs via 'apt-get'
 for (my $i = 0; $i < scalar(@programs); $i++)
 {
 	system("apt-get install $programs[$i]");
 	print "$programs[$i] was installed\n";
 }
+
+print "Remember to update (sudo apt update && sudo apt upgrade)";
