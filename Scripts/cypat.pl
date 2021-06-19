@@ -1,12 +1,15 @@
 #!/usr/bin/perl
 #																								DOES NOT SUPPORT MORE THAN 30 USERS
+#																									  ONLY FOR UBUNTU/DEBIAN
 use strict;
 # use warnings;					Auto typecast doesn't like this when "if (temp == '10')" to check if a UID is 1000 or over
+
+print "\t\t\tREMEMBER TO RUN AS SUDO\n";
 
 use feature "switch";
 
 # Assign most vars
-my @programs ['ufw', 'clamtk', 'rkhunter'];
+my @programs;
 my $temp;
 my @new;
 my @file;
@@ -28,7 +31,7 @@ for (my $i = 0; $i < scalar(@file); $i++)
 {
 	$file[$i] =~ s/.{3}$//;
 	my $temp = substr($file[$i], -2);
-	if (temp == '10')
+	if ($temp == '10')
 	{
 		$file[$i] =~ s/.{5}$//;
 		push @a_users, $file[$i];
@@ -36,14 +39,14 @@ for (my $i = 0; $i < scalar(@file); $i++)
 }
 
 # Print all users and have a number with them
-for (my i = 0, my $i = 1; $i < scalar(@a_users); $i++, $j++)
+for (my $i = 0, my $j = 1; $i < scalar(@a_users); $i++, $j++)
 {
 	print "User #$j: $a_users[$i] ";
 	print "\n";
 }
 
-print "Enter the numbers for the admin users: "
-$temp = <STDIN>
+print "Enter the numbers for the admin users: ";
+$temp = <STDIN>;
 chomp $temp;
 
 my @input = split(' ', $temp);
@@ -87,7 +90,7 @@ for (my $i = 0; $i < scalar(@input); $i++)
 }
 
 # Make superusers
-for (my $i = 0; $i < scalar(a_users); $i++)
+for (my $i = 0; $i < scalar(@a_users); $i++)
 {
 	my $found = grep /$a_users[$i]/, @new;
 	if ($found)
@@ -102,7 +105,20 @@ for (my $i = 0; $i < scalar(a_users); $i++)
 	}
 }
 
-system("sudo systemctl enable ufw; sudo systemctl start ufw; sudo ufw enable")
+
+print "Which programs do you want to install [Default: ufw clamtk rkhunter]\n";
+print "If unsure just press [ENTER]\n";
+$temp = <STDIN>;
+chomp $temp;
+
+my @input = split(' ', $temp);
+if (scalar(@input) == 0)
+{
+	push @programs, 'ufw', 'clamtk', 'rkhunter';
+} else
+{
+	push @programs, @input;
+}
 
 # Install all programs via 'apt-get'
 for (my $i = 0; $i < scalar(@programs); $i++)
@@ -111,4 +127,6 @@ for (my $i = 0; $i < scalar(@programs); $i++)
 	print "$programs[$i] was installed\n";
 }
 
-print "Remember to update (sudo apt update && sudo apt upgrade)";
+system("sudo systemctl enable ufw; sudo systemctl start ufw; sudo ufw enable");
+
+print "Remember to update!";
