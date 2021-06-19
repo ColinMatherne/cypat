@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/var/spool/cron'
+let g:netrw_dirhist_5='/var/spool'
+let g:netrw_dirhist_4='/var'
+let g:netrw_dirhist_3='/var/opt'
+let g:netrw_dirhist_2='/var'
+let g:netrw_dirhist_1='/var/local'

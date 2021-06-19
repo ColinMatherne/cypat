@@ -1,0 +1,43 @@
+" Basic configs
+	syntax enable
+	set nocompatible
+	filetype plugin indent on
+	set encoding=utf-8
+	set hidden
+	set ruler
+
+" Search
+	set ignorecase 
+	set smartcase
+
+" Lines and Indents
+	set tabstop=4
+	set shiftwidth=4
+	set softtabstop=4
+	set cindent
+	set nu rnu
+	set foldmethod=indent
+	set linebreak
+	set wrap
+
+" Directories and History
+	set backupdir=~/.cache/vim
+	set dir=~/.cache/vim
+	set history=1000
+
+" Make faster
+	set ttyfast
+	set lazyredraw
+
+" Remaps
+	let mapleader = " "
+	nmap <leader><Space> /<++><CR>d4li
+
+" Other
+	set confirm
+	set noerrorbells
+	set novisualbell
+	set title
+	set background=dark
+	set laststatus=2
+	set wildmenu
